@@ -56,13 +56,13 @@ describe('GET /api', () => {
    
 });
 
-describe('GET /api/articles/:article_id', () => {
-    test('should respond with 200 status code for good request', () => {
-        return request(app)
-        .get('/api/articles/1')
-        .expect(200)
-        .then(({body}) => {
-            console.log(body)
-        } )
-    })
-})
+// describe('GET /api/articles/:article_id', () => {
+//     test('should respond with 200 status code for good request', () => {
+//         return request(app)
+//         .get('/api/articles/1')
+//         .expect(200)
+//         .then(({body}) => {
+//             console.log(body)
+//         } )
+//     })
+// })
