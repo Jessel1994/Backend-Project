@@ -4,7 +4,7 @@ const {fetchTopics} = require('./controllers/topics.controller')
 const { fetchAPI } = require('./controllers/api.controller')
 
 
-app.use(express.json())
+
 
 app.get('/api/topics', fetchTopics)
 app.get('/api', fetchAPI)

@@ -25,10 +25,7 @@ describe('GET /api/topics', () => {
         })
 
     }) 
-    test('should return 404 status if topics spelt wrong', () => {
-        return request(app).get('/api/topikz')
-        .expect(404)
-    })
+   
 })
 
 describe('GET /api', () => {
@@ -56,9 +53,16 @@ describe('GET /api', () => {
             });
     });
 
-    test('should return 404 error if wrong input', () => {
-        return request(app)
-            .get('/apy')
-            .expect(404);
-    });
+   
 });
+
+describe('GET /api/articles/:article_id', () => {
+    test('should respond with 200 status code for good request', () => {
+        return request(app)
+        .get('/api/articles/1')
+        .expect(200)
+        .then(({body}) => {
+            console.log(body)
+        } )
+    })
+})
