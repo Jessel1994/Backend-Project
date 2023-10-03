@@ -1,11 +1,19 @@
 const express = require('express')
 const app = express()
 const {fetchTopics} = require('./controllers/topics.controller')
+<<<<<<< HEAD
+=======
+const { fetchAPI } = require('./controllers/api.controller')
+>>>>>>> 3-get-api
 
 
 app.use(express.json())
 
 app.get('/api/topics', fetchTopics)
+<<<<<<< HEAD
+=======
+app.get('/api', fetchAPI)
+>>>>>>> 3-get-api
 
 
 
