@@ -65,7 +65,7 @@ describe('GET /api/articles/:article_id', () => {
         .get('/api/articles/1')
         .expect(200)
         .then(({body}) => {
-            console.log(body.articles)
+           
             const keys = Object.keys(body.articles)
             if (keys.length !== 0) {
                 expect(body.articles).toEqual(
@@ -90,7 +90,7 @@ describe('GET /api/articles/:article_id', () => {
           .get('/api/articles/notAnID')
           .expect(400)
           .then(({ body }) => {
-            console.log(body)
+            
             expect(body.msg).toBe('ID not exists');
           });
       });
