@@ -104,7 +104,7 @@ describe('GET /api/articles/:article_id', () => {
       })
 })
 
-describe.only('GET /api/articles', () => {
+describe('GET /api/articles', () => {
     test('should respond with 200 status code for a good request', () => {
         return request(app)
         .get('/api/articles')
@@ -142,5 +142,12 @@ describe.only('GET /api/articles', () => {
            
 
         })
+    })
+})
+
+describe('GET /api/articles/:article_id/comments', () => {
+    test('should respond with 200 for a good request', () => {
+        return request(app)
+        .get('/api/articles/1/comments')
     })
 })
