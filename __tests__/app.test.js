@@ -151,7 +151,7 @@ describe('GET /api/articles/:article_id/comments', () => {
         .get('/api/articles/1/comments')
         .expect(200)
         .then(({ body }) => {
-            console.log(body.comments)
+            
             expect(Array.isArray(body.comments)).toBe(true)
             if (body.comments.length !== 0) {
                 body.comments.forEach((comment) => {
