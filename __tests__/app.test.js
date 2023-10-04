@@ -149,5 +149,45 @@ describe('GET /api/articles/:article_id/comments', () => {
     test('should respond with 200 for a good request', () => {
         return request(app)
         .get('/api/articles/1/comments')
+        .expect(200)
+        .then(({ body }) => {
+            console.log(body.comments)
+            expect(Array.isArray(body.comments)).toBe(true)
+            if (body.comments.length !== 0) {
+                body.comments.forEach((comment) => {
+                    if (Object.keys(comment).length !== 0) {
+                        expect(comment).toEqual(
+                            expect.objectContaining({
+                                comment_id: expect.any(Number),
+                                votes: expect.any(Number),
+                                created_at: expect.any(String), 
+                                author: expect.any(String), 
+                                body: expect.any(String), 
+                                article_id: expect.any(Number)
+                            })
+                        )
+
+                    }
+                   
+                })
+            }
+            expect(body.comments).toBeSorted({descending : true, key: 'created_at'})
+        })
     })
+    test('should respond with 400 when passed an article id that is not uniform', () => {
+        return request(app)
+          .get('/api/articles/notAnID/comments')
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe('ID not exists');
+        });
+    })
+    test('status 404 responds with message if a valid input but no article', () => {
+        return request(app)
+        .get('/api/articles/9999/comments')
+        .expect(404)
+        .then(({body}) => {
+            expect(body.msg).toBe('Article doesn\'t exist')
+        })
+      })
 })

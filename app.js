@@ -3,6 +3,7 @@ const app = express()
 const {fetchTopics} = require('./controllers/topics.controller')
 const { fetchAPI } = require('./controllers/api.controller')
 const { fetchArticlesById, fetchAllArticles } = require('./controllers/articles.controller')
+const { fetchCommentsByArticleId } = require('./controllers/comments.controller')
 
 
 
@@ -11,6 +12,7 @@ app.get('/api/topics', fetchTopics)
 app.get('/api', fetchAPI)
 app.get('/api/articles/:article_id', fetchArticlesById)
 app.get('/api/articles', fetchAllArticles)
+app.get('/api/articles/:article_id/comments', fetchCommentsByArticleId)
 
 
 
