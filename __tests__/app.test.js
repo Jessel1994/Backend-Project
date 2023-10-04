@@ -4,7 +4,9 @@ const app = require("../app.js")
 const db = require('../db/connection.js')
 const seed = require('../db/seeds/seed.js')
 const { expect } = require("@jest/globals")
-const expectExport = require("expect")
+require('jest-sorted')
+
+
 beforeEach(() =>  seed(data))
 afterAll(() => db.end())
 
@@ -90,7 +92,7 @@ describe('GET /api/articles/:article_id', () => {
           .get('/api/articles/notAnID')
           .expect(400)
           .then(({ body }) => {
-            
+
             expect(body.msg).toBe('ID not exists');
           });
       });
@@ -102,4 +104,46 @@ describe('GET /api/articles/:article_id', () => {
             expect(body.msg).toBe('Article doesn\'t exist')
         })
       })
+})
+
+describe.only('GET /api/articles', () => {
+    test('should respond with 200 status code for a good request', () => {
+        return request(app)
+        .get('/api/articles')
+        .expect(200)
+        .then(({ body }) => {
+            expect(Array.isArray(body.articles)).toBe(true)
+            if (body.articles.length !== 0) {
+                body.articles.forEach((article) => {
+                        expect(Object.keys(article).length === 7)
+                        expect(article).toEqual(
+                            expect.objectContaining({
+                                author: expect.any(String),
+                                title: expect.any(String),
+                                article_id: expect.any(Number),
+                                topic: expect.any(String),
+                                created_at: expect.any(String),
+                                votes: expect.any(Number),
+                                comment_count: expect.any(String)
+                                
+                                
+    
+                            })
+                            
+                        )
+                        expect(article).toEqual(
+                            expect.not.objectContaining({
+                                body: expect.any(String)
+                            })
+                        );
+                        
+
+                })
+                expect(body.articles).toBeSorted({descending :true, key: 'created_at'})
+
+            }
+           
+
+        })
+    })
 })

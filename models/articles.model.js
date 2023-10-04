@@ -21,3 +21,26 @@ exports.selectArticleById = (article_id) => {
       
       
   };
+
+
+  exports.selectAllArticles = () => {
+    return db.query(`SELECT articles.article_id, COUNT(comments.comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id GROUP BY articles.article_id;`)
+    .then((result) => {
+            return db.query(`SELECT * FROM articles ORDER BY created_at DESC;`).then((responses) => {
+                responses.rows.forEach((article) => {
+                    delete article.body
+                    result.rows.forEach((commentCounta) => {
+                        if (article.article_id === commentCounta.article_id) {
+                            article.comment_count = commentCounta.comment_count
+                        }
+                    })
+                })
+                return responses.rows
+               
+
+        
+
+        
+    })
+  })
+}
