@@ -113,6 +113,7 @@ describe.only('GET /api/articles', () => {
             expect(Array.isArray(body.articles)).toBe(true)
             if (body.articles.length !== 0) {
                 body.articles.forEach((article) => {
+                        expect(Object.keys(article).length === 7)
                         expect(article).toEqual(
                             expect.objectContaining({
                                 author: expect.any(String),
