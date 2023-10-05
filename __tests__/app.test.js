@@ -145,33 +145,38 @@ describe('GET /api/articles', () => {
     })
 })
 
-describe('GET /api/articles/:article_id/comments', () => {
+describe.only('GET /api/articles/:article_id/comments', () => {
     test('should respond with 200 for a good request', () => {
         return request(app)
         .get('/api/articles/1/comments')
         .expect(200)
         .then(({ body }) => {
             
-            expect(Array.isArray(body.comments)).toBe(true)
-            if (body.comments.length !== 0) {
-                body.comments.forEach((comment) => {
-                    if (Object.keys(comment).length !== 0) {
-                        expect(comment).toEqual(
-                            expect.objectContaining({
-                                comment_id: expect.any(Number),
-                                votes: expect.any(Number),
-                                created_at: expect.any(String), 
-                                author: expect.any(String), 
-                                body: expect.any(String), 
-                                article_id: expect.any(Number)
-                            })
-                        )
+            body.comments.forEach((comment) => {
+                if (Object.keys(comment).length !== 0) {
+                    expect(comment).toEqual(
+                        expect.objectContaining({
+                            comment_id: expect.any(Number),
+                            votes: expect.any(Number),
+                            created_at: expect.any(String), 
+                            author: expect.any(String), 
+                            body: expect.any(String), 
+                            article_id: expect.any(Number)
+                        })
+                    )
 
-                    }
-                   
-                })
-            }
+                }
+               
+            })
             expect(body.comments).toBeSorted({descending : true, key: 'created_at'})
+        })
+    })
+    test('should respond with 200 status code and an empty array if the article exists but has no comments', () => {
+        return request(app)
+        .get('/api/articles/13/comments')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.comments).toEqual([])
         })
     })
     test('should respond with 400 when passed an article id that is not uniform', () => {
@@ -190,4 +195,27 @@ describe('GET /api/articles/:article_id/comments', () => {
             expect(body.msg).toBe('Article doesn\'t exist')
         })
       })
+})
+
+describe('POST /api/articles/:article_id/comments', () => {
+    test('should respond with 201 status for a good POST request', () => {
+        const postCommentTest = {
+            username: 'test', 
+            body: "I like turtles"
+        }
+        return request(app)
+        .post('/api/articles/1/comments')
+        .send(postCommentTest)
+        .expect(201)
+        .then((response) => {
+            expect(response.body.comment).toEqual(
+                expect.objectContaining({
+                        username: 'test', 
+                        body: "I like turtles"
+                    })
+            )
+        })
+        
+            
+        })
 })
