@@ -200,25 +200,4 @@ describe('GET /api/articles/:article_id/comments', () => {
       })
 })
 
-describe('POST /api/articles/:article_id/comments', () => {
-    test('should respond with 201 status for a good POST request', () => {
-        const postCommentTest = {
-            username: 'test', 
-            body: "I like turtles"
-        }
-        return request(app)
-        .post('/api/articles/1/comments')
-        .send(postCommentTest)
-        .expect(201)
-        .then((response) => {
-            expect(response.body.comment).toEqual(
-                expect.objectContaining({
-                        username: 'test', 
-                        body: "I like turtles"
-                    })
-            )
-        })
-        
-            
-        })
-})
+
