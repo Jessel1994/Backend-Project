@@ -145,7 +145,7 @@ describe('GET /api/articles', () => {
     })
 })
 
-describe.only('GET /api/articles/:article_id/comments', () => {
+describe('GET /api/articles/:article_id/comments', () => {
     test('should respond with 200 for a good request', () => {
         return request(app)
         .get('/api/articles/1/comments')
