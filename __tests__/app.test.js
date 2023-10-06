@@ -224,7 +224,7 @@ describe('POST /api/articles/:article_id/comments', () => {
             )
         })
     })
-    test('if user doesnt exist should return 400 error', () => {
+    test('if user doesnt exist should return 404 error', () => {
         const commentTest = {
             username: "Jessel",
             body: "Test Comment"
@@ -232,9 +232,9 @@ describe('POST /api/articles/:article_id/comments', () => {
         return request(app)
         .post('/api/articles/10/comments')
         .send(commentTest)
-        .expect(400)
+        .expect(404)
         .then((response) => {
-            expect(response.body.msg).toBe('Bad Request')
+            expect(response.body.msg).toBe('User Does not Exist')
         })
     })
     test('status 400 responds with message if a valid input but no article', () => {
