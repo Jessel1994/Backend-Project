@@ -201,3 +201,30 @@ describe('GET /api/articles/:article_id/comments', () => {
 })
 
 
+// describe(' PATCH /api/articles/:article_id', () => {
+//     test('200 status code for good PATCH request, responds with updated article', () => {
+//         const articleVoteUpdate = {
+//             inc_votes: 10
+//         };
+
+//         return request(app)
+//         .patch('/api/articles/7')
+//         .send(articleVoteUpdate)
+//         .expect(200)
+//         .then(({ body }) => {
+//             expect(body.article).toMatchObject({
+                
+//                     "title": "Z",
+//                     "topic": "mitch",
+//                     "author: "icellusedkars",
+//                     body: "I find this existence challenging",
+//                     created_at: "2018-05-30T15:59:13.341Z",
+//                     votes: 100,
+//                     article_img_url: "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
+                
+//             })
+//         })
+
+
+//     })
+// })
