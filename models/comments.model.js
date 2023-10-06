@@ -8,16 +8,14 @@ exports.selectCommentsByArticleId = async (article_id) => {
                 await checkExists('articles', 'article_id', article_id)
             }
             return comments;
+}
 
-      
-        
-      
-        
-        
-        
-        
-       
-        
-        
+exports.insertCommentByArticleId = async ({username, body}, article_id) => {
+
+    const results =  await db.query(`INSERT INTO comments (author, body, article_id) VALUES ($1, $2, $3) RETURNING *;`, [username, body, article_id])
+    const post = results.rows;
+    return post
+
     
 }
+
