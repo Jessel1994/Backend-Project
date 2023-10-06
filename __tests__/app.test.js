@@ -201,3 +201,91 @@ describe('GET /api/articles/:article_id/comments', () => {
 })
 
 
+describe('POST /api/articles/:article_id/comments', () => {
+    test('should respond with 201 status for a good post', () => {
+        const commentTest = {
+            username: "lurker",
+            body: "Test Comment"
+        }
+        return request(app)
+        .post('/api/articles/10/comments')
+        .send(commentTest)
+        .expect(201)
+        .then((response) => {
+            expect(response.body.comments).toEqual(
+                expect.objectContaining({
+                    body: "Test Comment",
+                    votes: 0,
+                    author: "lurker",
+                    article_id: 10,
+                    created_at: expect.any(String),
+                    comment_id: expect.any(Number)
+                })
+            )
+        })
+    })
+    test('if user doesnt exist should return 404 error', () => {
+        const commentTest = {
+            username: "Jessel",
+            body: "Test Comment"
+        }
+        return request(app)
+        .post('/api/articles/10/comments')
+        .send(commentTest)
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('User Does not Exist')
+        })
+    })
+    test('status 400 responds with message if a valid input but no article', () => {
+        const commentTest = {
+            username: "lurker",
+            body: "Test Comment"
+        }
+        return request(app)
+        .post('/api/articles/9999/comments')
+        .send(commentTest)
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+      })
+    test('status 400 response if put a malformed body ', () => {
+        const badBody = {}
+        return request(app)
+        .post('/api/articles/10/comments')
+        .send(badBody)
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('Body is Malformed')
+        })
+    })
+    test('should respond with 400 when passed an article id that is not uniform', () => {
+        const commentTest = {
+            username: "lurker",
+            body: "Test Comment"
+        }
+        return request(app)
+          .post('/api/articles/notAnID/comments')
+          .send(commentTest)
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe('ID not exists');
+        });
+    })
+    test('should respond with 400 status if failing schema validation', () => {
+        const testComment = {
+            username: "lurker",
+            body: 69
+        }
+        return request(app)
+        .post('/api/articles/10/comments')
+        .send(testComment)
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Schema Validation Failed')
+        })
+    })
+    
+
+})

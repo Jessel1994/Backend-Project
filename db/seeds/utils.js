@@ -36,3 +36,34 @@ exports.checkExists = async (table, column, value) => {
   }
   
 }
+
+exports.checkUserExists = async (table, column, value) => {
+  const queryStr = format(`SELECT * FROM %I WHERE %I = $1`, table, column)
+  const dbOutput = await db.query(queryStr, [value]);
+
+  if (dbOutput.rows.length === 0) { 
+    return Promise.reject({
+      status: 404, 
+      msg: "User Does not Exist"
+    })
+  }
+  
+}
+
+exports.validateComment = async(comment) => {
+  if (!comment.hasOwnProperty('username') || !comment.hasOwnProperty('body')) {
+    return Promise.reject({
+      status: 400, 
+      msg: "Body is Malformed"
+    })
+  }
+  if (typeof comment.username !== "string" || typeof comment.body !== "string") {
+        
+    return Promise.reject({
+        status: 400, 
+        msg: 'Schema Validation Failed'
+      })
+}
+  
+}
+
