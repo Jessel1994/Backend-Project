@@ -200,15 +200,4 @@ describe('GET /api/articles/:article_id/comments', () => {
       })
 })
 
-describe(' PATCH /api/articles/:article_id', () => {
-    test('200 status code for good PATCH request, responds with updated article', () => {
-        const articleVoteUpdate = {
-            inc_votes: 10
-        };
 
-        return request(app)
-        .patch()
-
-
-    })
-})
