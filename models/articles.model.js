@@ -1,6 +1,7 @@
 
 
 const db = require('../db/connection');
+const { validateVotes, checkExists } = require('../db/seeds/utils');
 
 
 exports.selectArticleById = (article_id) => {
@@ -43,4 +44,29 @@ exports.selectArticleById = (article_id) => {
         
     })
   })
+}
+
+exports.updateArticleWithVotes = async (article_id, inc_votes) => {
+    
+    await checkExists('articles', 'article_id', article_id)
+    if (inc_votes === undefined) {
+        return Promise.reject({
+          status: 400, 
+          msg: "Body is Malformed"
+        })
+    
+    }
+    console.log(typeof inc_votes)
+    if (typeof inc_votes !== "number") {
+        return Promise.reject({
+          status: 400, 
+          msg: 'Schema Validation Failed'
+        })
+    
+      }
+    // await validateVotes(inc_votes)
+    const results = await db.query(`UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *;`, [inc_votes, article_id])
+    const article = results.rows
+    
+    return article
 }
