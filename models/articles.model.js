@@ -56,7 +56,7 @@ exports.updateArticleWithVotes = async (article_id, inc_votes) => {
         })
     
     }
-    console.log(typeof inc_votes)
+    
     if (typeof inc_votes !== "number") {
         return Promise.reject({
           status: 400, 

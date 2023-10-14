@@ -301,6 +301,7 @@ describe.only(' PATCH /api/articles/:article_id', () => {
         .send(articleVoteUpdate)
         .expect(200)
         .then(({ body }) => {
+            console.log(body.articles)
             expect(body.articles).toMatchObject({
                 article_id: 5,
                 title: 'UNCOVERED: catspiracy to bring down democracy',
@@ -325,6 +326,7 @@ describe.only(' PATCH /api/articles/:article_id', () => {
         .send(articleVoteUpdate)
         .expect(200)
         .then(({ body }) => {
+
             
             expect(body.articles).toMatchObject({
                 article_id: 1,
