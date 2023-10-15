@@ -4,6 +4,7 @@ const app = require("../app.js")
 const db = require('../db/connection.js')
 const seed = require('../db/seeds/seed.js')
 const { expect } = require("@jest/globals")
+const comments = require('../db/data/test-data/comments.js')
 require('jest-sorted')
 
 
@@ -93,7 +94,7 @@ describe('GET /api/articles/:article_id', () => {
           .expect(400)
           .then(({ body }) => {
 
-            expect(body.msg).toBe('ID not exists');
+            expect(body.msg).toBe('400: ID not exists');
           });
       });
       test('status 404 responds with message if a valid input but no article', () => {
@@ -187,7 +188,7 @@ describe('GET /api/articles/:article_id/comments', () => {
           .get('/api/articles/notAnID/comments')
           .expect(400)
           .then(({ body }) => {
-            expect(body.msg).toBe('ID not exists');
+            expect(body.msg).toBe('400: ID not exists');
         });
     })
     test('status 404 responds with message if a valid input but no article', () => {
@@ -270,7 +271,7 @@ describe('POST /api/articles/:article_id/comments', () => {
           .send(commentTest)
           .expect(400)
           .then(({ body }) => {
-            expect(body.msg).toBe('ID not exists');
+            expect(body.msg).toBe('400: ID not exists');
         });
     })
     test('should respond with 400 status if failing schema validation', () => {
@@ -290,7 +291,7 @@ describe('POST /api/articles/:article_id/comments', () => {
 
 })
 
-describe.only(' PATCH /api/articles/:article_id', () => {
+describe(' PATCH /api/articles/:article_id', () => {
     test('200 status code for good PATCH request, responds with updated article', () => {
         const articleVoteUpdate = {
             inc_votes: 10
@@ -301,7 +302,7 @@ describe.only(' PATCH /api/articles/:article_id', () => {
         .send(articleVoteUpdate)
         .expect(200)
         .then(({ body }) => {
-            console.log(body.articles)
+            
             expect(body.articles).toMatchObject({
                 article_id: 5,
                 title: 'UNCOVERED: catspiracy to bring down democracy',
@@ -373,7 +374,7 @@ describe.only(' PATCH /api/articles/:article_id', () => {
           .send(articleVoteUpdate)
           .expect(400)
           .then(({ body }) => {
-            expect(body.msg).toBe('ID not exists');
+            expect(body.msg).toBe('400: ID not exists');
         });
     })
     test('should respond with 400 status if failing schema validation', () => {
@@ -389,4 +390,33 @@ describe.only(' PATCH /api/articles/:article_id', () => {
         })
     })
 
+})
+
+describe('DELETE /api/comments/:comment_id',  () => {
+    test('should delete a comment from comments table and return 204 if successful', () => {
+        
+        return request(app)
+        .delete('/api/comments/3')
+        .expect(204)
+        .then(({ body }) => {
+            expect(body).toEqual({})
+        })
+    })
+    test('if comment doesnt exist should return 404 error', () => {
+        
+        return request(app)
+        .delete('/api/comments/100')
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('Comment Does not Exist')
+        })
+    })
+    test('should respond with 400 when passed a comment id that is not uniform', () => {
+        return request(app)
+          .delete('/api/comments/notAnId')
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe('400: ID not exists');
+        });
+    })
 })

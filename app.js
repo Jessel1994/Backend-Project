@@ -3,7 +3,7 @@ const app = express()
 const {fetchTopics} = require('./controllers/topics.controller')
 const { fetchAPI } = require('./controllers/api.controller')
 const { fetchArticlesById, fetchAllArticles, patchArticle } = require('./controllers/articles.controller')
-const { fetchCommentsByArticleId, postCommentByArticleId } = require('./controllers/comments.controller')
+const { fetchCommentsByArticleId, postCommentByArticleId, deleteComment } = require('./controllers/comments.controller')
 
 
 
@@ -18,6 +18,8 @@ app.use(express.json())
 
 app.post('/api/articles/:article_id/comments', postCommentByArticleId)
 app.patch('/api/articles/:article_id', patchArticle)
+
+app.delete('/api/comments/:comment_id', deleteComment)
 
 
 
@@ -40,7 +42,7 @@ app.use((err, req, res, next) => {
   if (err.status && err.msg) {
     res.status(err.status).send({ msg: err.msg });
   } else if (err.code === '22P02') {
-    res.status(400).send({msg:'ID not exists' })
+    res.status(400).send({msg:'400: ID not exists' })
   }else if (err.code === '23503') {
     res.status(400).send({msg:'Bad Request' })
   } else {

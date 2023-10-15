@@ -3,4 +3,4 @@
 SELECT * FROM comments;
 SELECT * FROM articles;
 
-SELECT * FROM comments WHERE article_id = 13;
+SELECT * FROM comments WHERE comment_id = 3;
