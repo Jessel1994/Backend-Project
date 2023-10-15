@@ -29,6 +29,6 @@ exports.insertCommentByArticleId = async (comment, article_id) => {
 exports.deleteCommentByCommentId = async (comment_id) => {
     await checkCommentExists('comments', 'comment_id', comment_id)
     const results = await db.query(`DELETE FROM comments WHERE comment_id = $1 RETURNING *`, [comment_id]);
-    console.log(results.rows)
+    
     return results.rows
 }

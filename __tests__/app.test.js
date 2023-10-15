@@ -427,7 +427,7 @@ describe.only('GET /api/users', () => {
     .get('/api/users')
     .expect(200)
     .then((response) => {
-        console.log(response.body.users)
+        
         response.body.users.forEach((user) => {
             expect(user).toEqual( expect.objectContaining({
                 username: expect.any(String),
