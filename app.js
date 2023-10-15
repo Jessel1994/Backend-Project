@@ -4,6 +4,7 @@ const {fetchTopics} = require('./controllers/topics.controller')
 const { fetchAPI } = require('./controllers/api.controller')
 const { fetchArticlesById, fetchAllArticles, patchArticle } = require('./controllers/articles.controller')
 const { fetchCommentsByArticleId, postCommentByArticleId, deleteComment } = require('./controllers/comments.controller')
+const { fetchAllUsers } = require('./controllers/users.controller')
 
 
 
@@ -13,6 +14,7 @@ app.get('/api', fetchAPI)
 app.get('/api/articles/:article_id', fetchArticlesById)
 app.get('/api/articles', fetchAllArticles)
 app.get('/api/articles/:article_id/comments', fetchCommentsByArticleId)
+app.get('/api/users', fetchAllUsers)
 
 app.use(express.json())
 

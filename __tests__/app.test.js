@@ -4,7 +4,7 @@ const app = require("../app.js")
 const db = require('../db/connection.js')
 const seed = require('../db/seeds/seed.js')
 const { expect } = require("@jest/globals")
-const comments = require('../db/data/test-data/comments.js')
+
 require('jest-sorted')
 
 
@@ -418,5 +418,23 @@ describe('DELETE /api/comments/:comment_id',  () => {
           .then(({ body }) => {
             expect(body.msg).toBe('400: ID not exists');
         });
+    })
+})
+
+describe.only('GET /api/users', () => {
+    test('should return 200 status code and array of all users', () => {
+    return request(app)
+    .get('/api/users')
+    .expect(200)
+    .then((response) => {
+        console.log(response.body.users)
+        response.body.users.forEach((user) => {
+            expect(user).toEqual( expect.objectContaining({
+                username: expect.any(String),
+                name: expect.any(String),
+                avatar_url: expect.any(String)
+              }))
+        })
+    })
     })
 })
