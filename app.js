@@ -5,8 +5,9 @@ const { fetchAPI } = require('./controllers/api.controller')
 const { fetchArticlesById, fetchAllArticles, patchArticle } = require('./controllers/articles.controller')
 const { fetchCommentsByArticleId, postCommentByArticleId, deleteComment } = require('./controllers/comments.controller')
 const { fetchAllUsers } = require('./controllers/users.controller')
+const cors = require('cors');
 
-
+app.use(cors());
 
 
 app.get('/api/topics', fetchTopics)
